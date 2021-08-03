@@ -224,20 +224,23 @@ def parse_flashfile(filename):
     offs = 0
     while offs < len(fileraw): #LG claims a single file could have "1-3 headers."
         newvar = tiflash()
-        if fileraw[offs:8].decode() != '**TIFL**':
+        if fileraw[0:8].decode() != '**TIFL**':
             print('** '+ filename + ' does not seem to be TI Flash format. Skipping. **')
             return(varlist)
-        newvar.name = sanitize_name(fileraw[offs+17:offs+25])
-        newvar.MID = fileraw[offs+0x30]
-        newvar.TID = fileraw[offs+0x31]
+        newvar.name = sanitize_name(fileraw[17:25])
+        newvar.MID = fileraw[0x30]
+        newvar.TID = fileraw[0x31]
         if newvar.TID == 0x23: # Flash apps seem to have this info in neither place, so don't load.
-            newvar.hw_id = fileraw[offs+0x56] # Note LG says this is at 0x48, so maybe older ROMS are different???
-        datasize = fileraw[offs+74] + 2**8 * fileraw[offs+75] + 2**16 * fileraw[offs+76] + + 2**24 * fileraw[offs+77]
-        newvar.data = fileraw[offs+78: offs+78+datasize]
+            newvar.hw_id = fileraw[0x56] # Note LG says this is at 0x48, so maybe older ROMS are different???
+        datasize = fileraw[74] + 2**8 * fileraw[75] + 2**16 * fileraw[76] + + 2**24 * fileraw[77]
+        newvar.data = fileraw[78: 78+datasize]
         # !!! Contrary to LG, TI flash file does not seem to have a checksum! !
-        varlist.append(newvar)
-        offs += 78+datasize #Header+data+no checksum!
-        print('Found flash data: ' + newvar.name + ', ' + str(len(newvar.data)) +' bytes.')
+        fileraw = fileraw[78 + datasize:]
+        if newvar.name == 'License':
+            print('Found license. Skipping. Use a hex editor or TI software to view.')
+        else:
+            print('Found flash data: ' + newvar.name + ', ' + str(len(newvar.data)) +' bytes.')
+            varlist.append(newvar)
     return(varlist)
 
 
