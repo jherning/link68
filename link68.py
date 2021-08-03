@@ -309,7 +309,7 @@ if cmd == 'rflash': flash(args, link, True)
 settings.comp_MIDt = 'Computer->92' # Pretend we think it's a 92. Later models respond (as a 92), so it's safe.
 quicksend('RDY', link)
 inpack = quickget('ACK', link)
-if inpack.header[3] & 1 == 1:
+if inpack.header[3] & 1 == 1 and cmd != 'shot':
     print("Calc not ready. Are you at the homescreen?")
     quit()
 if inpack.header[2] == 0x00: # Byte 3 of ACK seems to contain hardware version info.

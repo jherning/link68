@@ -1,0 +1,2 @@
+
+2021-08-02: Fixed issue with screenshots when calc reports not ready.
