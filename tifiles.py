@@ -237,7 +237,8 @@ def parse_flashfile(filename):
         # !!! Contrary to LG, TI flash file does not seem to have a checksum! !
         fileraw = fileraw[78 + datasize:]
         if newvar.name == 'License':
-            print('Found license. Skipping. Use a hex editor or TI software to view.')
+            print('Found software license. Use a hex editor or TI software to view.')
+            input('Press ENTER to acknowledge the license and proceed to flash.')
         else:
             print('Found flash data: ' + newvar.name + ', ' + str(len(newvar.data)) +' bytes.')
             varlist.append(newvar)
