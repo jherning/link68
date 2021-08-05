@@ -138,6 +138,8 @@ def flash(filenames, link, recovery):
 
 # Load then put normal vars to calculator.
 def put(filenames, link):
+    data_time = 0
+    data_amount = 0
     putvarsALL = loadvars(filenames)
     putvars = []
     if not settings.overwrite:
@@ -164,15 +166,20 @@ def put(filenames, link):
         outpack.data.extend(var.vardata)
         outpack.CIDt = 'DATA'
         print(' put ' + var.folder + '/' + var.varname + '  (' + var.TIDt + ', ' + str(len(var.vardata)) + ' bytes)' )
+        timer = time.time()
         outpack.buildsend(link)
+        data_time += time.time() - timer
+        data_amount += len(outpack.output)
         ### /DATA
         quickget('ACK', link)
         quicksend('EOT', link) # Send EOT for each file. FIX?
         quickget('ACK', link) # Doesn't seem to work w/o doing this.
-    print('Done putting files.')
+    if data_time: print("Done putting files. Link write speed: %i bytes/s" % (data_amount/data_time) )
 
 # Get vars from calc; write individually or as a group file.
 def get(args, link, grouped):
+    data_time = 0
+    data_amount = 0
     sendvars = []
     if grouped:
         groupfilename = args.pop()
@@ -186,7 +193,10 @@ def get(args, link, grouped):
             quicksend('ACK', link)
             quicksend('CTS', link)
             quickget('ACK', link)
+            timer = time.time()
             datapack = quickget('DATA', link)
+            data_time += time.time() - timer
+            data_amount += datapack.data_len + 6
             quicksend('ACK', link)
             quickget('EOT', link)
             quicksend('ACK', link)
@@ -207,7 +217,7 @@ def get(args, link, grouped):
             time.sleep(2.1) # Calculator seems to timeout after SKE.
                             # Then graylink gets a byte, so reset:
         link.softreset() # SilverLink!
-    print("Done getting files.")
+    if data_time: print("Done getting files. Link read speed: %i bytes/s" % (data_amount/data_time) )
     if grouped:
         writevars(groupfilename, sendvars, settings.calc_type)
 
