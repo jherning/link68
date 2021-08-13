@@ -2,7 +2,7 @@
 Program and documentation copyright (c) Joseph Herning 2021.
 This is experimental software. Please read license at the end of this file.
 
-Link 68 is a pure Python computer-to-calc linking program for the TI 68k calculators. It does not make use of external libraries except those Python modules needed to support various things (PySerial, PyUSB, PyPNG...). As of release, testing has only been done on Linux. This manual assumes a Linux-like environment. Current features/capabilities:
+Link 68 is a pure Python computer-to-calc linking program for the TI 68k calculators using the traditional I/O port (2.5mm phone jack). It does not make use of external libraries except those Python modules needed to support various things (PySerial, PyUSB, PyPNG...). The TI-89, TI-89 Titanium, TI-92, TI-92+, and V200 are supported. As of release, testing has only been done on Linux. This manual assumes a Linux-like environment. Current features/capabilities:
  - sending/receiving normal variables using TI Graph Link format (including group format)
  - backing up all normal variables (i.e. not flash apps or AMS)
  - sending free flash apps and AMS updates
@@ -77,6 +77,7 @@ Backup all normal vars to a groupfile:
 
 Flash the calculator with a flash apps or AMS:
     ./link68.py flash flashfile1.XXk/XXu flashfile2.XXk ...
+ - WARNING: AMS flashing will delete all variables/data stored in RAM.
  - AMS flashing may brick your calculator and is untested with many hardware/AMS combinations. See below.
  
  "Recover"/flash the calculator from the bootloader (after pressing "I to install product code"):
@@ -151,11 +152,11 @@ Your user will need access to the serial ports. This is often means the user sho
   
  - Forward (/) and back (\) slashes can both be used between a folder and variable name on the calculator, but in most Linux shells "\" must be escaped. e.g.: "main\\myvar". I think it's easier just to use a forward slash: "main/myvar". I don't know how Windows behaves.
 
- - TI-89 Titanium is untested. It should work through its classic link port at least for regular (non-flash) vars. Future plans INCLUDE testing it and supporting its direct USB link port.
+ - The TI-89 Titanium has now been tested and should work through its classic 2.5mm I/O port (not the USB port, although you can use a USB SilverLink cable). Only HW4 has been tested. There are no plans to support the USB port.
  
- - HW1 calcs (including the TI-92 with Plus Module) are currently untested.
+ - The TI-92-II, the TI-92 with Plus Module, and HW3 calcs are currently untested.
  
- - TI-89 (classic), TI-92, TI-92+, and V200 have all been tested, but not all physical-link/command/calc combinations have been tested. Most old AMS versions have not been tested.
+ - Not all physical-link/command/calc combinations have been tested. Most old AMS versions have not been tested.
 
  - When writing to computer, file extensions are added automatically; don't include them in filenames. When reading files from computer, full filenames should be used.
  
@@ -172,8 +173,7 @@ Your user will need access to the serial ports. This is often means the user sho
  
   --- Future Plans ---
   
-  - Test on the TI-89 Titanium and support the direct USB cable.
-  - Test on some older AMS versions.
+  - Test on some older AMS versions and untested calcs (92 w+module, 92-II, HW3).
   - Polish code.
   - Better error checking & exception handling.
   - Support receiving flash files -- MAYBE.
@@ -186,6 +186,7 @@ Your user will need access to the serial ports. This is often means the user sho
    - Add a GUI.
    - Support for certificates or non-free apps.
    - Support CBL/CBR.
+   - Support the TI-89 Titanium USB link port. I had assumed the USB port spoke the same protocol as the traditional I/O port, potentially with some extra wrapping. In reality it speaks an entirely different protocol (shared to large degree with the TI-84+ USB port), so supporting it is outside the scope of this project.
 
 
  --- WHY? ---
