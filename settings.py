@@ -1,5 +1,5 @@
 # Can be 'gray', 'black', 'silver', or 'custom'. See manual.txt:
-link_type = 'silver'
+link_type = 'gray'
 
 # Serial Port name for black, gray, and custom serial links.
 # Probably '/dev/ttyUSBx' or '/dev/ttySx' on Linux, 'COMx' on Windows.

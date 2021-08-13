@@ -77,8 +77,9 @@ Backup all normal vars to a groupfile:
 
 Flash the calculator with a flash apps or AMS:
     ./link68.py flash flashfile1.XXk/XXu flashfile2.XXk ...
- - WARNING: AMS flashing will delete all variables/data stored in RAM.
  - AMS flashing may brick your calculator and is untested with many hardware/AMS combinations. See below.
+ - WARNING: AMS flashing will delete all variables/data stored in RAM.
+ - WARNING: HW1 calculators currently have trouble flashing AMS from the boot code with the SilverLink. This also gives TiLP trouble. It's possible the SilverLink does something incompatible with the HW1 boot code operation of the link port at the hardware protocol level (e.g. it's too fast). The GrayLink works fine. Note the SilverLink did not exist when the HW1 TI-89 was introduced. HW2 calculators are not affected.
  
  "Recover"/flash the calculator from the bootloader (after pressing "I to install product code"):
      ./link68.py rflash osfile.XXu
