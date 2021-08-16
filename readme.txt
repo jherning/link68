@@ -155,7 +155,7 @@ Your user will need access to the serial ports. This is often means the user sho
 
  - The TI-89 Titanium has now been tested and should work through its classic 2.5mm I/O port (not the USB port, although you can use a USB SilverLink cable). Only HW4 has been tested. There are no plans to support the USB port.
  
- - The TI-92-II, the TI-92 with Plus Module, and HW3 calcs are currently untested.
+ - The TI-92-II and HW3 calcs are currently untested (but should work).
  
  - Not all physical-link/command/calc combinations have been tested. Most old AMS versions have not been tested.
 
@@ -174,7 +174,7 @@ Your user will need access to the serial ports. This is often means the user sho
  
   --- Future Plans ---
   
-  - Test on some older AMS versions and untested calcs (92 w+module, 92-II, HW3).
+  - Test on some older AMS versions and untested calcs (92-II, HW3).
   - Polish code.
   - Better error checking & exception handling.
   - Support receiving flash files -- MAYBE.
