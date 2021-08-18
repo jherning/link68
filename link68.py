@@ -111,6 +111,8 @@ def flash(filenames, link, recovery):
     
     for var in flashvars: # Flash the Calc!
         link.softreset()  # Good for SilverLink
+        if var.TID == 0x23:
+            input("Warning: about to attempt an AMS flash update. This will clear your RAM and may damage your calculator. Press ENTER to proceed.")
         if var.TID == 0x23 and var.hw_id >= 8: # AMS flash V200/89T!
             sendV200amsRTS(len(var.data), var.hw_id, link) # 0x08: V200, 0x09: Titanium
         elif var.TID == 0x23: # AMS flash 89/92+

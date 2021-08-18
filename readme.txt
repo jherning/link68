@@ -74,8 +74,9 @@ Put some files to the current folder (disregarding folder metadata):
 Backup all normal vars to a groupfile:
     ./link68.py backup backupfile
  - If no file is provided, backup.XXg is used.
+ - You get a group file containing all the non-flashapp vars on the calculator.
 
-Flash the calculator with a flash apps or AMS:
+Flash the calculator with flash apps or AMS:
     ./link68.py flash flashfile1.XXk/XXu flashfile2.XXk ...
  - AMS flashing may brick your calculator and is untested with many hardware/AMS combinations. See below.
  - WARNING: AMS flashing will delete all variables/data stored in RAM.
@@ -161,15 +162,17 @@ Your user will need access to the serial ports. This is often means the user sho
 
  - When writing to computer, file extensions are added automatically; don't include them in filenames. When reading files from computer, full filenames should be used.
  
-  - On most Linux-like environments you can use commands like "./link68.py put *" since "*" is expanded by the shell.
+ - On most Linux-like environments you can use commands like "./link68.py put *" since "*" is expanded by the shell.
 
  - No calculator-type checking is performed when sending vars. That is, link68 is happy to send prog.92p to a TI-89. No adjustment is made to the variable data, but 68k calc variables are mostly compatible between calcs anyway, with exceptions including flash apps and ASM progs. Flash apps sent to the wrong calculator type will probably be rejected by the calculator at the end of transfer. This will essentially delete the existing version of the flash app from the calc.
 
  - Locked vars are problematic when in overwrite mode. Attempting to overwrite a locked var on the TI-92 seems to lead to a link timeout. Other calcs complain more gracefully.
  
-  - Since the TI uses a modified ASCII character set to support Greek letters, etc., we currently convert these to their character codes in hex. For example, the mathtools package contains an expression named with two gammas on the calc. Link 68 will call it "+83+83" (83h being the code for a gamma in TI's charset). You can "./link68.py get mathtool/+83+83", and you will get the file "mathtool.+83+83.89e". If you send it back to the calculator it will have its original name. Var names and folders are stored in metadata and are not dependent on filenames, so feel free to rename your computer files (e.g. to remove the folder names).
+ - Since the TI uses a modified ASCII character set to support Greek letters, etc., we currently convert these to their character codes in hex. For example, the mathtools package contains an expression named with two gammas on the calc. Link 68 will call it "+83+83" (83h being the code for a gamma in TI's charset). You can "./link68.py get mathtool/+83+83", and you will get the file "mathtool.+83+83.89e". If you send it back to the calculator it will have its original name. Var names and folders are stored in metadata and are not dependent on filenames, so feel free to rename your computer files (e.g. to remove the folder names).
   
-   - Variable attributes (locked/unlocked, archived) are written to the computer files in what should be a TiLP compatible format (untested). Attributes are NOT restored when putting files to calculator which can lead to memory problems when restoring backups. This is the behavior of TI Graph Link since the link protocol for sending a var to the calc does not specify attributes. Programs seem to be an EXCEPTION. Locked programs are restored as locked which implies this information is stored in the raw variable data. The Link Guide does not seem to have information about this. Potential future support for remote control commands would allow us to change attributes after sending.
+ - The TI-89/92+/V200 have no real backup mode (total memory dump), so a backup is simply a group file containing all of the non-flashapp calculator vars (archived vars are included -- but see the note below about var attributes). The TI-92 has a backup format (.92b), but it is not currently supported.
+  
+ - Variable attributes (locked/unlocked, archived) are written to the computer files in what should be a TiLP compatible format (untested). Attributes are NOT restored when putting files to calculator which can lead to memory problems when restoring backups. This is the behavior of TI Graph Link since the link protocol for sending a var to the calc does not specify attributes. Programs seem to be an EXCEPTION. Locked programs are restored as locked which implies this information is stored in the raw variable data. The Link Guide does not seem to have information about this. Potential future support for remote control commands would allow us to change attributes after sending.
  
  
   --- Future Plans ---
